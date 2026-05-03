@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kerala Healthcare & Pharma Expo 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:#0b6b6b; --teal-dark:#084d4d; --teal-deep:#053838;
+      --teal-light:#e0f4f4; --teal-mid:#1a9090;
+      --gold:#c8973a; --gold-light:#f5e6c8;
+      --text:#1a1a1a; --muted:#5a6a6a;
+      --bg:#fff; --soft:#f6fafa; --green:#eaf5f5;
+      --border:rgba(11,107,107,0.15);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+    #canvas-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.28;}
+
+    /* NAVBAR */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:10px 36px;background:rgba(5,56,56,.94);backdrop-filter:blur(20px);border-bottom:1px solid rgba(200,151,58,.2);transition:padding .4s;}
+    .nav.scrolled{padding:7px 36px;}
+    .nav-logos{display:flex;align-items:center;gap:14px;}
+    .logo-item{display:flex;align-items:center;gap:9px;}
+    .logo-div{width:1px;height:36px;background:rgba(200,151,58,.35);}
+    .logo-item img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);}
+    .logo-svg{width:42px;height:42px;border-radius:50%;border:2px solid var(--gold);background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
+    .logo-txt .p{font-family:'Playfair Display',serif;font-size:14px;color:#fff;display:block;line-height:1.2;}
+    .logo-txt .s{font-size:10px;font-weight:300;color:rgba(255,255,255,.55);letter-spacing:.05em;display:block;}
+    .navlist{list-style:none;display:flex;gap:4px;}
+    .navlist li a{color:rgba(255,255,255,.78);text-decoration:none;font-size:12.5px;font-weight:500;letter-spacing:.04em;padding:7px 13px;border-radius:20px;transition:all .25s;text-transform:uppercase;}
+    .navlist li a:hover{color:var(--gold);background:rgba(200,151,58,.15);}
+    .ncta{background:var(--gold)!important;color:var(--teal-deep)!important;font-weight:600!important;}
+    .ncta:hover{background:#daa83e!important;color:var(--teal-deep)!important;}
+    .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:5px;}
+    .burger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:all .3s;}
+
+    /* HERO */
+    .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;background:linear-gradient(160deg,var(--teal-deep) 0%,var(--teal) 55%,var(--teal-mid) 100%);overflow:hidden;}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,151,58,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(200,151,58,.055) 1px,transparent 1px);background-size:65px 65px;}
+    .orb{position:absolute;border-radius:50%;border:1px solid rgba(200,151,58,.12);animation:orbP 7s ease-in-out infinite;}
+    .orb:nth-child(1){width:350px;height:350px;top:5%;left:-6%;animation-delay:0s;}
+    .orb:nth-child(2){width:550px;height:550px;top:-12%;right:-10%;animation-delay:2s;}
+    .orb:nth-child(3){width:250px;height:250px;bottom:10%;left:8%;animation-delay:4s;}
+    .orb:nth-child(4){width:420px;height:420px;bottom:-8%;right:3%;animation-delay:1s;}
+    @keyframes orbP{0%,100%{transform:scale(1);opacity:.4;}50%{transform:scale(1.07);opacity:.85;}}
+    .hero-content{position:relative;z-index:2;max-width:920px;}
+    .badge{display:inline-flex;align-items:center;gap:9px;background:rgba(200,151,58,.13);border:1px solid rgba(200,151,58,.38);color:var(--gold);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border-radius:30px;margin-bottom:22px;animation:fid .8s ease both;}
+    .badge::before{content:'';display:inline-block;width:6px;height:6px;background:var(--gold);border-radius:50%;animation:blink 1.6s ease infinite;}
+    @keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(38px,6.5vw,72px);color:#fff;line-height:1.08;margin-bottom:14px;animation:fiu .9s ease .2s both;}
+    .hero h1 em{font-style:italic;color:var(--gold);}
+    .hero-sub{font-size:clamp(15px,2.2vw,20px);color:rgba(255,255,255,.72);font-weight:300;letter-spacing:.03em;margin-bottom:18px;animation:fiu .9s ease .35s both;}
+    .rule{width:55px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:18px auto;animation:fi 1s ease .5s both;}
+    .hero-desc{font-size:16px;color:rgba(255,255,255,.65);max-width:700px;margin:0 auto 38px;line-height:1.75;animation:fiu .9s ease .5s both;}
+    .hero-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;animation:fiu .9s ease .7s both;}
+    .sbox{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(10px);padding:20px 28px;border-radius:14px;min-width:148px;transition:all .35s;position:relative;overflow:hidden;}
+    .sbox::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);transition:transform .4s;}
+    .sbox:hover{background:rgba(255,255,255,.12);transform:translateY(-4px);border-color:rgba(200,151,58,.35);}
+    .sbox:hover::before{transform:scaleX(1);}
+    .sbox h3{font-family:'Playfair Display',serif;font-size:34px;color:var(--gold);margin-bottom:5px;line-height:1;}
+    .sbox p{font-size:12.5px;color:rgba(255,255,255,.62);}
+    .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:34px;animation:fiu .9s ease .85s both;}
+    .scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;color:rgba(255,255,255,.38);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;animation:fi 2s ease 1.2s both;}
+    .scroll-bar{width:1px;height:38px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);animation:sd 2s ease infinite;}
+    @keyframes sd{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:50px;font-size:14px;font-weight:600;text-decoration:none;transition:all .35s;letter-spacing:.02em;}
+    .btn-gold{background:var(--gold);color:var(--teal-deep);}
+    .btn-gold:hover{background:#daa83e;transform:translateY(-3px);box-shadow:0 12px 30px rgba(200,151,58,.3);}
+    .btn-ow{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.38);}
+    .btn-ow:hover{background:rgba(255,255,255,.1);border-color:#fff;transform:translateY(-3px);}
+    .btn-teal{background:var(--teal);color:#fff;}
+    .btn-teal:hover{background:var(--teal-dark);transform:translateY(-3px);box-shadow:0 10px 28px rgba(11,107,107,.25);}
+    .btn-ot{background:transparent;color:var(--teal);border:1px solid var(--teal);}
+    .btn-ot:hover{background:var(--teal-light);transform:translateY(-3px);}
+
+    /* SECTIONS */
+    .sec{position:relative;z-index:1;padding:88px 20px;}
+    .inn{max-width:1100px;margin:0 auto;}
+    .cen{text-align:center;}
+    .cen .slead{margin-left:auto;margin-right:auto;}
+    .slabel{font-size:10.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+    .stitle{font-family:'Playfair Display',serif;font-size:clamp(26px,3.8vw,42px);color:var(--teal-deep);margin-bottom:18px;line-height:1.15;}
+    .slead{font-size:16.5px;color:var(--muted);max-width:700px;line-height:1.72;margin-bottom:46px;}
+
+    /* ABOUT */
+    .about-sec{background:var(--soft);}
+    .about-lay{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+    .about-ghost{font-family:'Playfair Display',serif;font-size:110px;font-weight:900;color:var(--teal-light);line-height:1;user-select:none;letter-spacing:-4px;}
+    .about-float{position:absolute;bottom:-10px;right:0;background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 26px;box-shadow:0 18px 50px rgba(11,107,107,.1);}
+    .af-num{font-family:'Playfair Display',serif;font-size:38px;color:var(--teal);font-weight:700;line-height:1;}
+    .af-lbl{font-size:12px;color:var(--muted);margin-top:4px;}
+    .pills{display:flex;flex-direction:column;gap:12px;margin-top:28px;}
+    .pill{display:flex;align-items:center;gap:12px;padding:13px 16px;background:#fff;border:1px solid var(--border);border-radius:11px;font-size:14px;font-weight:500;color:var(--text);transition:all .3s;}
+    .pill:hover{border-color:var(--teal);background:var(--teal-light);transform:translateX(6px);}
+    .pi{width:34px;height:34px;background:var(--teal-light);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+
+    /* EVENT DETAILS */
+    .ev-sec{background:#fff;}
+    .ev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;}
+    .ecard{background:var(--soft);border:1px solid var(--border);border-radius:14px;padding:26px;display:flex;align-items:flex-start;gap:15px;transition:all .35s;position:relative;overflow:hidden;}
+    .ecard::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);border-radius:3px 0 0 3px;transform:scaleY(0);transition:transform .3s;}
+    .ecard:hover{background:#fff;box-shadow:0 10px 36px rgba(11,107,107,.1);transform:translateY(-3px);}
+    .ecard:hover::after{transform:scaleY(1);}
+    .eico{width:44px;height:44px;background:var(--teal-light);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+    .ecard strong{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:5px;}
+    .ecard p{font-size:14.5px;color:var(--text);line-height:1.5;}
+
+    /* KERALA */
+    .kerala-sec{background:linear-gradient(138deg,var(--teal-deep) 0%,var(--teal) 100%);overflow:hidden;}
+    .kerala-sec .stitle{color:#fff;}
+    .kerala-sec .slead{color:rgba(255,255,255,.68);}
+    .kdeco{position:absolute;border-radius:50%;pointer-events:none;}
+    .k1{width:480px;height:480px;right:-100px;top:50%;transform:translateY(-50%);border:70px solid rgba(255,255,255,.03);}
+    .k2{width:360px;height:360px;left:-90px;bottom:-90px;border:55px solid rgba(200,151,58,.06);}
+    .k-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;}
+    .kcard{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:26px 20px;text-align:center;transition:all .35s;}
+    .kcard:hover{background:rgba(255,255,255,.12);transform:translateY(-5px);border-color:rgba(200,151,58,.3);}
+    .kcard h3{font-family:'Playfair Display',serif;font-size:30px;color:var(--gold);margin-bottom:7px;line-height:1;}
+    .kcard p{font-size:12.5px;color:rgba(255,255,255,.62);line-height:1.4;}
+
+    /* HIGHLIGHTS */
+    .hl-sec{background:var(--green);}
+    .hl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;}
+    .hli{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 18px;text-align:center;font-size:14px;font-weight:500;color:var(--text);transition:all .35s;position:relative;overflow:hidden;}
+    .hli::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--teal-light),transparent);opacity:0;transition:opacity .3s;}
+    .hli:hover{border-color:var(--teal);transform:translateY(-4px);box-shadow:0 10px 28px rgba(11,107,107,.1);}
+    .hli:hover::before{opacity:1;}
+    .hlic{font-size:28px;margin-bottom:10px;position:relative;}
+
+    /* SPONSORS */
+    .sp-sec{background:#fff;}
+    .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+    .tcard{border-radius:18px;padding:34px 28px;position:relative;overflow:hidden;transition:all .4s;color:#fff;}
+    .tcard:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(0,0,0,.2);}
+    .tcard::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.06);}
+    .tcard.plat{background:linear-gradient(145deg,var(--teal-deep),var(--teal));}
+    .tcard.gold{background:linear-gradient(145deg,#7a4a10,var(--gold));}
+    .tcard.silv{background:linear-gradient(145deg,#4a5252,#7a8a8a);}
+    .tbdg{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.15);padding:5px 13px;border-radius:20px;display:inline-block;margin-bottom:14px;}
+    .tcard h3{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:14px;}
+    .tcard p{font-size:13.5px;opacity:.84;line-height:1.6;}
+
+    /* VISITOR */
+    .vis-sec{background:var(--soft);}
+    .vis-lay{display:grid;grid-template-columns:1fr 1fr;gap:50px;}
+    .blist{list-style:none;display:flex;flex-direction:column;gap:11px;}
+    .blist li{display:flex;align-items:flex-start;gap:11px;font-size:14.5px;color:var(--text);line-height:1.6;padding:13px 16px;background:#fff;border:1px solid var(--border);border-radius:11px;transition:all .3s;}
+    .blist li:hover{border-color:var(--teal);transform:translateX(5px);}
+    .blist li::before{content:'✓';display:flex;align-items:center;justify-content:center;width:21px;height:21px;background:var(--teal-light);color:var(--teal);border-radius:50%;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px;}
+    .who-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .wpill{background:#fff;border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-size:13px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:7px;transition:all .3s;}
+    .wpill:hover{background:var(--teal-light);border-color:var(--teal);}
+    .wpill::before{content:'→';color:var(--teal);font-size:13px;}
+
+    /* DOWNLOADS */
+    .dl-sec{background:#fff;}
+    .dl-wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;}
+    .dlcard{display:flex;align-items:center;gap:13px;background:var(--soft);border:1px solid var(--border);border-radius:14px;padding:16px 22px;text-decoration:none;color:var(--text);font-size:14px;font-weight:500;transition:all .35s;min-width:250px;}
+    .dlcard:hover{background:var(--teal-light);border-color:var(--teal);transform:translateY(-3px);color:var(--teal-deep);}
+    .dlico{width:38px;height:38px;background:var(--teal-light);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+
+    /* THE SHOWS */
+    .shows-sec{background:var(--teal-deep);overflow:hidden;}
+    .shows-sec .stitle{color:#fff;}
+    .shows-lay{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+    .shows-desc{font-size:15.5px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:28px;}
+    .vm-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+    .vmcard{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:24px;}
+    .vmlbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+    .vmtxt{font-size:13.5px;color:rgba(255,255,255,.68);line-height:1.65;}
+    .sec-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+    .spill{background:rgba(200,151,58,.12);border:1px solid rgba(200,151,58,.25);color:var(--gold);font-size:12px;font-weight:500;padding:6px 14px;border-radius:20px;}
+    .svc-list{display:flex;flex-direction:column;gap:12px;}
+    .srow{display:flex;align-items:flex-start;gap:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:18px;transition:all .3s;}
+    .srow:hover{background:rgba(255,255,255,.1);border-color:rgba(200,151,58,.3);}
+    .snum{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);font-weight:700;flex-shrink:0;line-height:1;margin-top:2px;}
+    .stitle2{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px;}
+    .sdesc{font-size:13px;color:rgba(255,255,255,.6);line-height:1.55;}
+
+    /* TEAM */
+
+    /* .team-sec{background:var(--soft);}
+    .t-stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:48px;justify-content:center;}
+    .tstat{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 28px;text-align:center;min-width:100px;transition:all .3s;}
+    .tstat:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(11,107,107,.1);border-color:var(--teal);}
+    .tstat h3{font-family:'Playfair Display',serif;font-size:30px;color:var(--teal);margin-bottom:5px;}
+    .tstat p{font-size:12px;color:var(--muted);}
+    .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    .tcard2{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all .4s;}
+    .tcard2:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(11,107,107,.12);border-color:var(--teal);} 
+      .tavatar{height:200px;display:flex;align-items:center;justify-content:center;}  */
+    /* .tavatar img {
+  width: 100%;
+  /* height: 30%; 
+  object-fit: cover;   
+  border-radius: 20px; 
+}  */
+
+/* .tavatar {
+  height: 260px;
+  overflow: hidden;
+}
+
+.tavatar img {
+  width: 270px;
+   height: 10%; 
+  object-fit: cover;
+  object-position: center top;
+  transition: transform .4s ease;
+}
+
+.tcard2:hover .tavatar img {
+  transform: scale(1.05); smooth zoom 
+} */
+
+
+
+    /* .tav-txt{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;}
+    .tbody{padding:24px;}
+    .tname{font-family:'Playfair Display',serif;font-size:20px;color:var(--teal-deep);margin-bottom:4px;}
+    .trole{font-size:13px;color:var(--muted);font-weight:500;margin-bottom:4px;}
+    .tdept{font-size:11.5px;color:var(--gold);font-weight:600;letter-spacing:.06em;text-transform:uppercase;} */
+
+
+/* TEAM2 */
+
+
+/* :root {
+      --teal:#0b6b6b; --teal-dark:#084d4d; --teal-deep:#053838;
+      --teal-light:#e0f4f4; --teal-mid:#1a9090;
+      --gold:#c8973a; --gold-light:#f5e6c8;
+      --text:#1a1a1a; --muted:#5a6a6a;
+      --bg:#fff; --soft:#f6fafa; --green:#eaf5f5;
+      --border:rgba(11,107,107,0.15); 
+    }*/
+    .team-sec{background:var(--soft); padding: 80px 20px;}
+    .t-stats{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:48px;justify-content:center;}
+    .tstat{background:#fff;border:1px solid var(--border);border-radius:14px;padding:22px 28px;text-align:center;min-width:100px;transition:all .3s;}
+    .tstat:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(11,107,107,.1);border-color:var(--teal);}
+    .tstat h3{font-family:'Playfair Display',serif;font-size:30px;color:var(--teal);margin-bottom:5px;}
+    .tstat p{font-size:12px;color:var(--muted);}
+    .cen{text-align:center;}
+    .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+    .tcard2{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all .4s;}
+    .tcard2:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(11,107,107,.12);border-color:var(--teal);}
+    .tavatar {
+      height: 320px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tavatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: 100% 100%;
+      object-position: center top;
+      transition: transform .4s ease;
+    }
+    .tcard2:hover .tavatar img {
+      transform: scale(1.05);
+    }
+
+
+
+    .tav-txt{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;}
+    .tbody{padding:24px;}
+    .tname{font-family:'Playfair Display',serif;font-size:20px;color:var(--teal-deep);margin-bottom:4px;}
+    .trole{font-size:13px;color:var(--muted);font-weight:500;margin-bottom:4px;}
+    .tdept{font-size:11.5px;color:var(--gold);font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+    .slabel{font-size:10.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+    .stitle{font-family:'Playfair Display',serif;font-size:clamp(26px,3.8vw,42px);color:var(--teal-deep);margin-bottom:18px;line-height:1.15;}
+    .slead{font-size:16.5px;color:var(--muted);max-width:700px;line-height:1.72;margin-bottom:46px; margin-left: auto; margin-right: auto;}
+
+
+
+    /* CONTACT */ 
+    .con-sec{background:#fff;}
+    .con-lay{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start;}
+    .crows{display:flex;flex-direction:column;gap:14px;}
+    .crow{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;background:var(--soft);border:1px solid var(--border);border-radius:13px;transition:all .3s;}
+    .crow:hover{border-color:var(--teal);box-shadow:0 5px 18px rgba(11,107,107,.08);}
+    .cico{width:40px;height:40px;background:var(--teal-light);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+    .ctxt strong{display:block;font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:3px;}
+    .ctxt p{font-size:14px;color:var(--text);}
+    .orgcard{background:var(--teal);border-radius:18px;padding:32px;color:#fff;}
+    .orgcard h3{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px;}
+    .orgcard p{font-size:14px;opacity:.78;margin-bottom:24px;line-height:1.65;}
+    .qr-box{margin-top:20px;background:var(--soft);border:1px solid var(--border);border-radius:14px;padding:22px 24px;}
+
+    /* FOOTER */
+    footer{background:var(--teal-deep);color:rgba(255,255,255,.65);padding:28px 20px;text-align:center;position:relative;}
+    footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,151,58,.4),transparent);}
+    footer p{font-size:13.5px;}
+    footer strong{color:var(--gold);font-weight:600;}
+
+    /* REVEAL */
+    .r{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+    .r.on{opacity:1;transform:translateY(0); }
+    .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+    
+
+    /* ANIM */
+
+    @keyframes fi{from{opacity:0;}to{opacity:1;}}
+    @keyframes fiu{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes fid{from{opacity:0;transform:translateY(-14px);}to{opacity:1;transform:translateY(0);}}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      .about-lay,.vis-lay,.con-lay,.shows-lay,.tgrid{grid-template-columns:1fr;gap:30px;}
+      .t-grid{grid-template-columns:1fr 1fr;}
+      .vm-grid{grid-template-columns:1fr;}
+      .about-ghost{font-size:80px;}
+      .nav{padding:10px 18px;}
+      .navlist{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(5,56,56,.98);padding:18px;gap:6px;}
+      .navlist.open{display:flex;}
+      .burger{display:flex;}
+    }
+    @media(max-width:600px){
+      .t-grid,.tgrid{grid-template-columns:1fr;}
+      .who-grid{grid-template-columns:1fr;}
+      .k-grid{grid-template-columns:repeat(2,1fr);}
+      .sbox{min-width:120px;padding:16px 20px;}
+      .sbox h3{font-size:26px;}
+      .logo-txt{display:none;}
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="canvas-bg"></canvas>
+
+<!-- NAVBAR -->
+<nav class="nav" id="nav">
+  <div class="nav-logos">
+    <div class="logo-item">
+      <img src="kerala Expo Logo.jpeg" alt="Kerala Expo">
+      <div class="logo-txt">
+        <span class="p">Kerala Expo 2026</span>
+        <span class="s">Healthcare &amp; Pharma</span>
+      </div>
+    </div>
+    <div class="logo-div"></div>
+    <div class="logo-item">
+      <div class="logo-svg">
+  <svg viewBox="0 0 42 42" width="42" height="42">
+    
+    <!-- Background circle -->
+    <circle cx="21" cy="21" r="21" fill="#0b6b6b"/>
+
+    <!-- Your Logo Image inside circle -->
+    <image href="logo.jpeg"
+           x="6" y="6"
+           width="30" height="30"
+           clip-path="circle(35px at 21px 21px)" />
+
+    <!-- Outer border -->
+    <circle cx="21" cy="21" r="19.5"
+      fill="none"
+      stroke="rgba(200,151,58,0.7)"
+      stroke-width="1.2"/>
+      
+  </svg>
+</div>
+      <div class="logo-txt">
+        <span class="p">The Shows</span>
+        <span class="s">by Wildeye</span>
+      </div>
+    </div>
+  </div>
+
+  <ul class="navlist" id="navlist">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">Expo</a></li>
+    <li><a href="#highlights">Highlights</a></li>
+    <li><a href="#sponsors">Partners</a></li>
+    <li><a href="#shows">The Shows</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="burger" onclick="document.getElementById('navlist').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="hero-grid"></div>
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
+  <div class="hero-content">
+    <div class="badge">South India's Premier Healthcare Exhibition · Kochi, July 2026</div>
+    <h1>Kerala <em>Healthcare</em><br>&amp; Pharma <em>Expo 2026</em></h1>
+    <div class="rule"></div>
+    <p class="hero-sub">Bridging Innovation &amp; Healthcare Excellence</p>
+    <p class="hero-desc">Connecting medical technology innovators, pharmaceutical leaders, healthcare professionals, and wellness brands under one roof at KINFRA International Exhibition Centre, Kochi.</p>
+    <div class="hero-stats">
+      <div class="sbox"><h3 class="ctr" data-t="10000">0</h3><p>Expected Visitors</p></div>
+      <div class="sbox"><h3 class="ctr" data-t="120">0</h3><p>Exhibitors</p></div>
+      <div class="sbox"><h3>3 Days</h3><p>Event Duration</p></div>
+      <div class="sbox"><h3>6</h3><p>Focus Sectors</p></div>
+      <div class="sbox"><h3>10k+</h3><p>Sq. Meters</p></div>
+    </div>
+    <div class="hero-ctas">
+      <a href="register_has_visitor.html" class="btn btn-ow">Visit the Expo — Free</a>
+    </div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-bar"></div><span>Scroll</span></div>
+</section>
+
+<!-- ABOUT EXPO -->
+<section id="about" class="sec about-sec">
+  <div class="inn">
+    <div class="about-lay">
+      <div style="position:relative;" class="r">
+        <div class="about-ghost">2026</div>
+        <div class="about-float">
+          <div class="af-num">B2B + B2C</div>
+          <div class="af-lbl">Industry Platform</div>
+        </div>
+      </div>
+      <div class="r d1">
+        <div class="slabel">About the Expo</div>
+        <h2 class="stitle">Where Healthcare<br>Meets Innovation</h2>
+        <p class="slead" style="margin-bottom:24px;">Kerala Healthcare &amp; Pharma Expo 2026 is South India's most comprehensive healthcare platform — connecting manufacturers, pharma companies, diagnostics providers, digital health innovators, hospitals, investors, and industry stakeholders.</p>
+        <div class="pills">
+          <div class="pill"><div class="pi">🏥</div>Medical Device Manufacturers</div>
+          <div class="pill"><div class="pi">💊</div>Pharmaceutical Companies</div>
+          <div class="pill"><div class="pi">🔬</div>Diagnostics Providers</div>
+          <div class="pill"><div class="pi">🤖</div>Digital Health Innovators</div>
+          <div class="pill"><div class="pi">🤝</div>Investors &amp; Industry Stakeholders</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENT DETAILS -->
+<section class="sec ev-sec">
+  <div class="inn cen">
+    <div class="slabel r">Event Details</div>
+    <h2 class="stitle r">Mark Your Calendar</h2>
+    <div class="ev-grid">
+      <div class="ecard r"><div class="eico">📍</div><div><strong>Venue</strong><p>KINFRA International Exhibition Centre, Kakkanad, Kochi, Kerala – 682030</p></div></div>
+      <div class="ecard r d1"><div class="eico">📅</div><div><strong>Schedule</strong><p>July 2026 — Final dates to be confirmed</p></div></div>
+      <div class="ecard r d2"><div class="eico">⏱️</div><div><strong>Duration</strong><p>3-Day Industry Expo</p></div></div>
+      <div class="ecard r"><div class="eico">📐</div><div><strong>Exhibition Area</strong><p>10,000+ Square Meters</p></div></div>
+      <div class="ecard r d1"><div class="eico">👥</div><div><strong>Audience</strong><p>Healthcare professionals, buyers, hospital administrators, innovators, students</p></div></div>
+      <div class="ecard r d2"><div class="eico">🎟️</div><div><strong>Entry</strong><p>Free for healthcare professionals &amp; industry stakeholders</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KERALA HUB -->
+<section class="sec kerala-sec">
+  <div class="kdeco k1"></div><div class="kdeco k2"></div>
+  <div class="inn cen" style="position:relative;z-index:2;">
+    <div class="slabel r">Why Kerala?</div>
+    <h2 class="stitle r">India's Emerging Healthcare Hub</h2>
+    <p class="slead r">Kerala commands 16% of India's MedTech output and hosts a ₹15,000 Cr pharma market — the ideal gateway to South India's booming healthcare economy.</p>
+    <div class="k-grid">
+      <div class="kcard r"><h3>85+</h3><p>Medical Device Companies</p></div>
+      <div class="kcard r d1"><h3>₹9,000 Cr</h3><p>Medical Device Turnover</p></div>
+      <div class="kcard r d2"><h3>16%</h3><p>India's MedTech Share</p></div>
+      <div class="kcard r d3"><h3>₹700 Cr</h3><p>Glove Industry Value</p></div>
+      <div class="kcard r"><h3>₹15,000 Cr</h3><p>Pharma Market Value</p></div>
+      <div class="kcard r d1"><h3>3.5%</h3><p>India's Pharma Share</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section id="highlights" class="sec hl-sec">
+  <div class="inn cen">
+    <div class="slabel r">Features</div>
+    <h2 class="stitle r">Event Highlights</h2>
+    <p class="slead r">9 immersive experiences designed to educate, connect, and inspire India's healthcare community.</p>
+    <div class="hl-grid">
+      <div class="hli r"><div class="hlic">🤖</div>AI in Healthcare Conference</div>
+      <div class="hli r d1"><div class="hlic">🚀</div>Startup Pitch Sessions</div>
+      <div class="hli r d2"><div class="hlic">🤝</div>B2B Buyer-Seller Meetings</div>
+      <div class="hli r d3"><div class="hlic">🎯</div>Product Launch Platform</div>
+      <div class="hli r"><div class="hlic">🔬</div>Live Demo Zones</div>
+      <div class="hli r d1"><div class="hlic">🌍</div>International Pavilion</div>
+      <div class="hli r d2"><div class="hlic">🌿</div>Ayurveda &amp; Wellness Pavilion</div>
+      <div class="hli r d3"><div class="hlic">🏆</div>Awards Ceremony</div>
+      <div class="hli r"><div class="hlic">🥂</div>Networking Gala</div>
+    </div>
+  </div>
+</section>
+
+<!-- SPONSORS -->
+<section id="sponsors" class="sec sp-sec">
+  <div class="inn cen">
+    <div class="slabel r">Partnership</div>
+    <h2 class="stitle r">Sponsorship Tiers</h2>
+    <p class="slead r">Partner with Kerala's most anticipated healthcare event and reach thousands of decision-makers across South India.</p>
+    <div class="tgrid">
+      <div class="tcard plat r">
+        <div class="tbdg">Platinum</div>
+        <h3>Platinum Partner</h3>
+        <p>Title sponsorship, prime booth placement, premium branding, VIP access, exclusive networking and product launch opportunities.</p>
+      </div>
+      <div class="tcard gold r d1">
+        <div class="tbdg">Gold</div>
+        <h3>Gold Partner</h3>
+        <p>Premium booth location, digital branding, networking access, social media promotion and event material features.</p>
+      </div>
+      <div class="tcard silv r d2">
+        <div class="tbdg">Silver</div>
+        <h3>Silver Partner</h3>
+        <p>Standard booth space, event directory listing, basic branding, access passes and digital visibility.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISITOR BENEFITS -->
+ <section class="sec vis-sec">
+  <div class="inn">
+    <div class="vis-lay">
+      <div>
+        <div class="slabel r">For Visitors</div>
+        <h2 class="stitle r">Why Attend?</h2>
+        <ul class="blist r">
+          <li>Explore the latest medical devices, pharma &amp; health tech</li>
+          <li>Experience live product demonstrations</li>
+          <li>Attend expert conferences &amp; educational sessions</li>
+          <li>Discover AI in healthcare &amp; digital transformation</li>
+          <li>Network with doctors, buyers, administrators &amp; investors</li>
+          <li>Access expo-only procurement deals &amp; opportunities</li>
+          <li>Earn CME credits through certified sessions</li>
+        </ul>
+      </div>
+      <div>
+        <div class="slabel r">Who Should Attend?</div>
+        <h2 class="stitle r">Is This For You?</h2>
+        <div class="who-grid r">
+          <div class="wpill">Hospital Owners</div>
+          <div class="wpill">Administrators</div>
+          <div class="wpill">Doctors</div>
+          <div class="wpill">Medical Professionals</div>
+          <div class="wpill">Purchase Managers</div>
+          <div class="wpill">Procurement Teams</div>
+          <div class="wpill">Medical Faculty</div>
+          <div class="wpill">Students</div>
+          <div class="wpill">Entrepreneurs</div>
+          <div class="wpill">Tourism Facilitators</div>
+        </div>
+        <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;" class="r">
+          <!-- <a href="register_has_exhibitor.html" class="btn btn-teal">Book a Booth</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section> 
+
+<!-- DOWNLOADS -->
+<section class="sec dl-sec">
+  <div class="inn cen">
+    <div class="slabel r">Resources</div>
+    <h2 class="stitle r">Download Documents</h2>
+    <div class="dl-wrap">
+      <a href="Kerala Medical  Pharma Expo 2026-3_compressed (1).pdf" download class="dlcard r">
+        <div class="dlico">📄</div>
+        <div><div style="font-weight:600;margin-bottom:2px;">Expo Brochure</div><div style="font-size:12px;color:var(--muted);">Kerala Medical &amp; Pharma Expo 2026</div></div>
+        <span style="margin-left:auto;font-size:18px;">⬇</span>
+      </a>
+      <a href="The Shows Company Profile-2_compressed (1).pdf" download class="dlcard r d1">
+        <div class="dlico">🏢</div>
+        <div><div style="font-weight:600;margin-bottom:2px;">Company Brochure</div><div style="font-size:12px;color:var(--muted);">The Shows — Company Profile</div></div>
+        <span style="margin-left:auto;font-size:18px;">⬇</span>
+      </a>
+      <a href="Elegant Partnership Tiers _compressed (1).pdf" download class="dlcard r d2">
+        <div class="dlico">🤝</div>
+        <div><div style="font-weight:600;margin-bottom:2px;">Partnership Tiers</div><div style="font-size:12px;color:var(--muted);">Sponsorship Package Details</div></div>
+        <span style="margin-left:auto;font-size:18px;">⬇</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- THE SHOWS BY WILDEYE -->
+<section id="shows" class="sec shows-sec">
+  <div style="position:absolute;top:-60px;right:-60px;width:420px;height:420px;border-radius:50%;border:70px solid rgba(255,255,255,.03);pointer-events:none;"></div>
+  <div style="position:absolute;bottom:-80px;left:-80px;width:320px;height:320px;border-radius:50%;border:55px solid rgba(200,151,58,.05);pointer-events:none;"></div>
+  <div class="inn" style="position:relative;z-index:2;">
+    <div class="shows-lay">
+      <div>
+        <div class="slabel r">Organized By</div>
+        <h2 class="stitle r" style="color:#fff;">The Shows<br><em style="color:var(--gold);font-style:italic;">by Wildeye</em></h2>
+        <p class="shows-desc r">An exhibition and event management company creating impactful trade shows, immersive exhibitions, and large-scale public events. Beyond organizing, we operate as an integrated ticketing &amp; audience management platform — combining exhibition expertise, digital infrastructure, and intelligent automation for end-to-end event success.</p>
+        <div class="vm-grid r">
+          <div class="vmcard">
+            <div class="vmlbl">Our Vision</div>
+            <div class="vmtxt">To become a globally recognized exhibition platform that transforms how businesses and audiences connect through immersive trade shows and intelligent event technology.</div>
+          </div>
+          <div class="vmcard">
+            <div class="vmlbl">Our Mission</div>
+            <div class="vmtxt">To design and deliver exceptional exhibitions that connect industries, brands, and communities — simplifying operations while maximizing engagement and impact.</div>
+          </div>
+        </div>
+        <div class="r">
+          <div class="slabel" style="color:var(--gold);margin-bottom:10px;">Industry Sectors We Serve</div>
+          <div class="sec-pills">
+            <span class="spill">Technology &amp; Digital</span>
+            <span class="spill">Healthcare &amp; Pharma</span>
+            <span class="spill">Manufacturing</span>
+            <span class="spill">Retail &amp; Consumer</span>
+            <span class="spill">Food &amp; Hospitality</span>
+            <span class="spill">Creative Industries</span>
+            <span class="spill">Startups &amp; Innovation</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="slabel r" style="color:var(--gold);">What We Do</div>
+        <div class="svc-list">
+          <div class="srow r">
+            <div class="snum">01</div>
+            <div><div class="stitle2">Exhibition &amp; Trade Show Organization</div><div class="sdesc">End-to-end event lifecycle — concept development, exhibitor acquisition, venue coordination, marketing, and visitor engagement.</div></div>
+          </div>
+          <div class="srow r d1">
+            <div class="snum">02</div>
+            <div><div class="stitle2">Event Ticketing &amp; Audience Management</div><div class="sdesc">Seamless ticket sales, attendee registration, and digital access management with real-time analytics and secure transactions for events of all sizes.</div></div>
+          </div>
+          <div class="srow r d2">
+            <div class="snum">03</div>
+            <div><div class="stitle2">Event Technology &amp; Automation</div><div class="sdesc">Digital tools automating exhibitor onboarding, visitor registration, ticket verification, reporting, and operational workflows.</div></div>
+          </div>
+          <div class="srow r d3">
+            <div class="snum">04</div>
+            <div><div class="stitle2">Brand Engagement &amp; Experiential Events</div><div class="sdesc">Immersive exhibition environments and brand activation experiences through creative displays and technology-enabled live engagement.</div></div>
+          </div>
+        </div>
+        <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;" class="r">
+          <a href="https://theshows.in/" target="_blank" class="btn btn-gold">Visit theshows.in →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="sec team-sec">
+  <div class="inn cen">
+    <div class="slabel r">Leadership</div>
+    <h2 class="stitle r">Our Team</h2>
+    <p class="slead r">Powered by professionals with deep expertise in exhibitions, event management, technology, media production, and marketing.</p>
+    <div class="t-stats">
+      <div class="tstat r"><h3>95%</h3><p>Teamwork Efficiency</p></div>
+      <div class="tstat r d1"><h3>96%</h3><p>Healthy Office Environment</p></div>
+      <div class="tstat r d2"><h3>92%</h3><p>Team Socialization</p></div>
+    </div>
+    <div class="t-grid">
+      <div class="tcard2 r">
+        <div class="tavatar" style="background:var(--teal-light);">
+          <img src="MM.jpeg" alt="Mubarak Muhammadali">
+        </div>
+        <div class="tbody">
+          <div class="tname">Mubarak Muhammadali</div>
+          <div class="trole">Chief Executive Officer &amp; Founder</div>
+          <div class="tdept">Leadership &amp; Strategy</div>
+        </div>
+      </div>
+      <div class="tcard2 r d1">
+        <div class="tavatar" style="background:var(--gold-light);">
+          <img src="AR.jpeg" alt="Abdul Razak">
+        </div>
+        <div class="tbody">
+          <div class="tname">Abdul Razak</div>
+          <div class="trole">Director</div>
+          <div class="tdept">Planning Engineering &amp; Sales</div>
+        </div>
+      </div>
+      <div class="tcard2 r d2">
+        <div class="tavatar" style="background:#e8f0ff;">
+          <img src="SM.jpeg" alt="Suresh Mohan">
+        </div>
+        <div class="tbody">
+          <div class="tname">Suresh Mohan</div>
+          <div class="trole">Director</div>
+          <div class="tdept">Planning Engineering &amp; Marketing</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact" class="sec con-sec">
+  <div class="inn">
+    <div class="con-lay">
+      <div>
+        <div class="slabel r">Get In Touch</div>
+        <h2 class="stitle r">Contact Us</h2>
+        <div class="crows r">
+          <div class="crow"><div class="cico">📧</div><div class="ctxt"><strong>General Email</strong><p>info@theshows.in</p></div></div>
+          <div class="crow"><div class="cico">🏢</div><div class="ctxt"><strong>Exhibitor Support</strong><p>exhibitors@keralamedicalexpo.com</p></div></div>
+          <div class="crow"><div class="cico">📱</div><div class="ctxt"><strong>Phone</strong><p>+91 9995969191</p></div></div>
+          <div class="crow"><div class="cico">📍</div><div class="ctxt"><strong>Venue</strong><p>KINFRA International Exhibition Centre, Kakkanad, Kochi, Kerala – 682030</p></div></div>
+          <div class="crow"><div class="cico">🏛️</div><div class="ctxt"><strong>Office</strong><p>TCV Tower,1st Floor 38/2410/1,Thoppinmoola Road,Near vanchikkulam junction, Thrissur -680004,Kerala,India</p></div></div>
+        </div>
+        <div style="margin-top:18px;" class="r">
+          <a href="https://www.google.com/maps?q=KINFRA+International+Exhibition+Centre+Kakkanad+Kochi" target="_blank" class="btn btn-teal">📍 View on Google Maps</a>
+          <a href="https://maps.app.goo.gl/nM8spnVTdYMd5RPH9?g_st=awb" target="_blank" class="btn btn-teal"> 📍 The Show Location</a>
+        </div>
+      </div>
+      <div class="r d1">
+        <div class="orgcard">
+          <p class="slabel" style="color:var(--gold);margin-bottom:8px;">Organizer</p>
+          <h3>The Shows by Wildeye</h3>
+          <p>Where Industries Meet Opportunities. Your gateway to global markets through world-class exhibitions, intelligent event tech, and seamless audience experiences.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <!-- <a href="register_has_exhibitor.html" class="btn btn-gold">Book a Booth</a> -->
+            <!-- <a href="become_a_sponsor.html" class="btn btn-ow">Sponsorship</a> -->
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <strong>Kerala Healthcare &amp; Pharma Expo</strong>. All Rights Reserved. &nbsp;|&nbsp; Organized by <strong>The Shows by Wildeye</strong> &nbsp;|&nbsp; <a href="https://theshows.in/" target="_blank" style="color:var(--gold);text-decoration:none;">www.theshows.in</a></p>
+</footer>
+
+<script>
+  /* Particles */
+  const cv=document.getElementById('canvas-bg'),cx=cv.getContext('2d');let W,H,pts=[];
+  function rz(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+  function init(){pts=[];const n=Math.floor(W*H/22000);for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,a:Math.random()*.45+.08});}
+  function draw(){cx.clearRect(0,0,W,H);pts.forEach(p=>{cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=`rgba(11,107,107,${p.a})`;cx.fill();p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;});requestAnimationFrame(draw);}
+  rz();init();draw();window.addEventListener('resize',()=>{rz();init();});
+
+  /* Navbar */
+  const navEl=document.getElementById('nav');
+  window.addEventListener('scroll',()=>navEl.classList.toggle('scrolled',scrollY>60));
+
+  /* Reveal */
+  const rEls=document.querySelectorAll('.r');
+  const ro=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('on');ro.unobserve(el.target);}});},{threshold:.1});
+  rEls.forEach(el=>ro.observe(el));
+
+  /* Counter */
+  function animC(el){const t=+el.dataset.t,dur=2000,s=performance.now();function tick(n){const p=Math.min((n-s)/dur,1),e=1-Math.pow(1-p,3),v=Math.floor(e*t);el.textContent=t>=10000?(v/1000).toFixed(1).replace('.0','')+'k+':v+'+';if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);}
+  const co=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){animC(el.target);co.unobserve(el.target);}});},{threshold:.5});
+  document.querySelectorAll('.ctr').forEach(el=>co.observe(el));
+</script>
+</body>
+</html>
